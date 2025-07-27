@@ -1,0 +1,88 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Underground Scanner API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/scans": {
+      "get": {
+        "summary": "Get all scans",
+        "responses": {
+          "200": {
+            "description": "List of scans"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new scan",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string" },
+                  "status": { "type": "string" },
+                  "timestamp": { "type": "string", "format": "date-time" },
+                  "source": { "type": "string" },
+                  "lat": { "type": "number" },
+                  "lng": { "type": "number" },
+                  "city": { "type": "string" },
+                  "display_name": { "type": "string" },
+                  "country": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Scan created"
+          }
+        }
+      }
+    },
+    "/api/scans/{id}": {
+      "get": {
+        "summary": "Get scan by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scan found"
+          },
+          "404": {
+            "description": "Scan not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete scan by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scan deleted"
+          },
+          "404": {
+            "description": "Scan not found"
+          }
+        }
+      }
+    }
+  }
+}

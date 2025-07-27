@@ -1,8 +1,8 @@
 import * as betterSqlite3 from "better-sqlite3";
+const db = new betterSqlite3.default("./db/data.db");
 import { getCityFromCoords } from "../utils/getCityFromCoords";
 import { getRandomLat, getRandomLng, randomFrom } from "../utils/random";
 
-const db = new betterSqlite3("./db/data.db");
 
 const insert = db.prepare(
   `INSERT INTO scans (type, status, timestamp, source, lat, lng, city, display_name, country)
