@@ -1,7 +1,7 @@
 import * as betterSqlite3 from "better-sqlite3";
 import { randomUUID } from "crypto";
-import { getCityFromCoords } from "../utils/getCityFromCoords";
-import { getRandomLat, getRandomLng, randomFrom } from "../utils/random";
+import { getCityFromCoords } from "./getCityFromCoords";
+import { getRandomLat, getRandomLng, randomFrom } from "./random";
 
 const db = new betterSqlite3.default("./db/data.db");
 
@@ -28,7 +28,7 @@ function getRandomTimestampWithinLastYear(): string {
   return new Date(randomTime).toISOString();
 }
 
-async function insertRandomScan() {
+export async function insertRandomScan() {
   const types = ["metal", "pipe", "cavity", "unknown"];
   const statuses = ["active", "inactive", "warning"];
   const sources = ["drone", "robot", "manual"];
@@ -45,7 +45,7 @@ async function insertRandomScan() {
     console.warn(
       `Skipping invalid location: ${city}, ${displayName}, ${country}`
     );
-    return false;
+    return null;
   }
 
   const id = randomUUID();
@@ -55,6 +55,21 @@ async function insertRandomScan() {
   const source = randomFrom(sources);
   const depth = Math.floor(Math.random() * 100);
   const signalStrength = parseFloat((Math.random() * 100).toFixed(2));
+
+  const scan = {
+    id,
+    timestamp,
+    type,
+    status,
+    source,
+    lat,
+    lng,
+    depth,
+    signal_strength: signalStrength,
+    country,
+    city,
+    display_name: displayName,
+  };
 
   insert.run(
     id,
@@ -71,17 +86,5 @@ async function insertRandomScan() {
     displayName
   );
 
-  console.log(`Inserted scan in ${city} (${lat}, ${lng})`);
-  return true;
+  return scan;
 }
-
-async function seed(count = 10) {
-  let inserted = 0;
-  while (inserted < count) {
-    const success = await insertRandomScan();
-    if (success) inserted++;
-  }
-  console.log(`Seeded ${inserted} scans successfully.`);
-}
-
-seed();
