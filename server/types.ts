@@ -1,3 +1,7 @@
+export type ScanStatus = "warning" | "active" | "inactive";
+export type ScanType = "metal" | "pipe" | "cavity" | "unknown";
+export type ScanSource = "drone" | "robot" | "manual";
+
 export interface Location {
   lat: number;
   lng: number;
@@ -6,17 +10,18 @@ export interface Location {
 export interface LocationInfo {
   country: string;
   city: string;
-  location: string;
+  displayName: string;
 }
 
 export interface ScanEvent {
   id: string;
-  timestamp: number;
+  timestamp: string;
   location: Location;
   depth: number;
   signalStrength: number;
-  type: "metal" | "pipe" | "cavity" | "unknown";
-  source: "drone" | "robot" | "manual";
+  status: ScanStatus;
+  type: ScanType;
+  source: ScanSource;
   locationInfo: LocationInfo;
 }
 

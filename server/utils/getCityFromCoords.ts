@@ -22,14 +22,14 @@ export async function getCityFromCoords(
         data.address?.village ||
         data.address?.state ||
         "Unknown",
-      location: data?.display_name || "Unknown location",
+      displayName: data?.display_name || "Unknown location",
       country: data?.address?.country || "Unknown",
     };
   } catch (err) {
     console.error("Failed to fetch location info:", err);
     return {
       city: "Unknown city",
-      location: "Unknown location",
+      displayName: "Unknown displayName",
       country: "Unknown country",
     };
   }

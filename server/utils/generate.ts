@@ -1,11 +1,11 @@
+import { ScanSource, ScanStatus, ScanType } from "../types";
 import { getCityFromCoords } from "./getCityFromCoords";
 import { getRandomLat, getRandomLng, randomFrom } from "./random";
 
-
 export async function generateRandomScanWithCity() {
-  const types = ["pipeline", "cable", "fiber"];
-  const statuses = ["active", "inactive", "warning"];
-  const sources = ["sensor-a", "sensor-b", "drone"];
+  const scanStatuses: ScanStatus[] = ["warning", "active", "inactive"];
+  const scanTypes: ScanType[] = ["metal", "pipe", "cavity", "unknown"];
+  const scanSources: ScanSource[] = ["drone", "robot", "manual"];
 
   const lat = getRandomLat();
   const lng = getRandomLng();
@@ -13,10 +13,10 @@ export async function generateRandomScanWithCity() {
   const locationInfo = await getCityFromCoords(lat, lng);
 
   return {
-    type: randomFrom(types),
-    status: randomFrom(statuses),
+    type: randomFrom(scanTypes),
+    status: randomFrom(scanStatuses),
     timestamp: new Date().toISOString(),
-    source: randomFrom(sources),
+    source: randomFrom(scanSources),
     lat,
     lng,
     ...locationInfo,

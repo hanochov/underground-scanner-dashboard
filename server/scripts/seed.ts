@@ -1,13 +1,26 @@
 import * as betterSqlite3 from "better-sqlite3";
-const db = new betterSqlite3.default("./db/data.db");
+import { randomUUID } from "crypto";
 import { getCityFromCoords } from "../utils/getCityFromCoords";
 import { getRandomLat, getRandomLng, randomFrom } from "../utils/random";
 
+const db = new betterSqlite3.default("./db/data.db");
 
-const insert = db.prepare(
-  `INSERT INTO scans (type, status, timestamp, source, lat, lng, city, display_name, country)
-   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
-);
+const insert = db.prepare(`
+  INSERT INTO scans (
+    id,
+    timestamp,
+    type,
+    status,
+    source,
+    lat,
+    lng,
+    depth,
+    signal_strength,
+    country,
+    city,
+    display_name
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`);
 
 function getRandomTimestampWithinLastYear(): string {
   const msInYear = 365 * 24 * 60 * 60 * 1000;
@@ -16,48 +29,58 @@ function getRandomTimestampWithinLastYear(): string {
 }
 
 async function insertRandomScan() {
-  const types = ["pipeline", "cable", "fiber"];
+  const types = ["metal", "pipe", "cavity", "unknown"];
   const statuses = ["active", "inactive", "warning"];
-  const sources = ["sensor-a", "sensor-b", "drone"];
+  const sources = ["drone", "robot", "manual"];
 
   const lat = getRandomLat();
   const lng = getRandomLng();
 
-  const { city, location, country } = await getCityFromCoords(lat, lng);
+  const { city, displayName, country } = await getCityFromCoords(lat, lng);
 
   if (
-    [city, location, country].includes("Unknown") ||
+    [city, displayName, country].includes("Unknown") ||
     country === "Palestinian Territory"
   ) {
-    console.warn(`Skipping invalid location: ${city}, ${location}, ${country}`);
-    return;
+    console.warn(
+      `Skipping invalid location: ${city}, ${displayName}, ${country}`
+    );
+    return false;
   }
 
+  const id = randomUUID();
   const timestamp = getRandomTimestampWithinLastYear();
+  const type = randomFrom(types);
+  const status = randomFrom(statuses);
+  const source = randomFrom(sources);
+  const depth = Math.floor(Math.random() * 100);
+  const signalStrength = parseFloat((Math.random() * 100).toFixed(2));
 
   insert.run(
-    randomFrom(types),
-    randomFrom(statuses),
+    id,
     timestamp,
-    randomFrom(sources),
+    type,
+    status,
+    source,
     lat,
     lng,
+    depth,
+    signalStrength,
+    country,
     city,
-    location,
-    country
+    displayName
   );
 
   console.log(`Inserted scan in ${city} (${lat}, ${lng})`);
+  return true;
 }
 
 async function seed(count = 10) {
   let inserted = 0;
   while (inserted < count) {
-    const before = inserted;
-    await insertRandomScan();
-    if (before + 1 === inserted + 1) inserted++;
+    const success = await insertRandomScan();
+    if (success) inserted++;
   }
-
   console.log(`Seeded ${inserted} scans successfully.`);
 }
 
