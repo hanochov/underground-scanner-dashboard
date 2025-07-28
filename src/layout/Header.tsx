@@ -11,8 +11,14 @@ function Header() {
           <NavLink to="/" className={({ isActive }) => isActive ? "text-blue-700 font-semibold" : "text-gray-600"}>
             Home
           </NavLink>
-          <NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-blue-700 font-semibold" : "text-gray-600"}>
-            Dashboard
+          <NavLink to="/Events" className={({ isActive }) => isActive ? "text-blue-700 font-semibold" : "text-gray-600"}>
+            Events
+          </NavLink>
+           <NavLink to="/map" className={({ isActive }) => isActive ? "text-blue-700 font-semibold" : "text-gray-600"}>
+            Map
+          </NavLink>
+           <NavLink to="/chart" className={({ isActive }) => isActive ? "text-blue-700 font-semibold" : "text-gray-600"}>
+            Chart
           </NavLink>
           <NavLink to="/about" className={({ isActive }) => isActive ? "text-blue-700 font-semibold" : "text-gray-600"}>
             About

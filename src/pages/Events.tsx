@@ -3,19 +3,21 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchScanEvents } from "../store/slices/scanEventsThunks";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import useWebSocket from "../hooks/useWebSocket";
-import ScanMap from "../components/Dashboard/ScanMap";
+import ScanMap from "../components/Map/ScanMap";
+import ScanEvent from "../components/Events/ScanEvent";
 
-const Dashboard = () => {
+const Events = () => {
   const dispatch = useAppDispatch();
-  // useWebSocket();
   const { events, isLoading } = useAppSelector((state) => state.scanEvents);
   useEffect(() => {
     dispatch(fetchScanEvents());
   }, [dispatch]);
 
   return (
-    <div>{isLoading ? <p>init data ...</p> : <ScanMap events={events} />}</div>
+    <div>
+      {isLoading ? <p>init data ...</p> : <ScanEvent events={events} />}
+    </div>
   );
 };
 
-export default Dashboard;
+export default Events;

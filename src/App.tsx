@@ -3,9 +3,10 @@ import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 import About from "./pages/About";
 import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
-import 'maplibre-gl/dist/maplibre-gl.css';
-
+import Events from "./pages/Events";
+import "maplibre-gl/dist/maplibre-gl.css";
+import Map from "./pages/Map";
+import Chart from "./pages/Chart";
 
 function App() {
   return (
@@ -14,7 +15,9 @@ function App() {
       <main className="">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/Events" element={<Events />} />
+          <Route path="/Map" element={<Map />} />
+          <Route path="/Chart" element={<Chart />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </main>
