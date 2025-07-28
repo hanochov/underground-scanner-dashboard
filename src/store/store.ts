@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import scanEventsReducer from "./slices/scanEventsSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    scanEvents: scanEventsReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
