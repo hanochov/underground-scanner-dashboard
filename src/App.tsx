@@ -4,6 +4,8 @@ import Footer from "./layout/Footer";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
+import 'maplibre-gl/dist/maplibre-gl.css';
+
 
 function App() {
   return (

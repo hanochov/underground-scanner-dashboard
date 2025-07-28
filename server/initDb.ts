@@ -29,7 +29,7 @@ db.exec(`
   CREATE TABLE scans (
     id TEXT PRIMARY KEY,    
     timestamp TEXT NOT NULL,
-    type TEXT CHECK (type IN ('metal', 'pipe', 'cavity', 'unknown')) NOT NULL,
+    type TEXT CHECK(type IN ('metal', 'pipe', 'tunnel', 'mine')) NOT NULL,
     status TEXT CHECK (status IN ('warning', 'active', 'inactive')) NOT NULL,
     source TEXT CHECK (source IN ('drone', 'robot', 'manual')) NOT NULL,
     lat REAL NOT NULL,

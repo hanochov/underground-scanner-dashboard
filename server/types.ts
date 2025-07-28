@@ -1,5 +1,5 @@
 export type ScanStatus = "warning" | "active" | "inactive";
-export type ScanType = "metal" | "pipe" | "cavity" | "unknown";
+export type ScanType = "metal" | "pipe" | "tunnel" | "mine";
 export type ScanSource = "drone" | "robot" | "manual";
 
 export interface Location {

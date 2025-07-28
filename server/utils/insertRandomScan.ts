@@ -1,7 +1,7 @@
 import * as betterSqlite3 from "better-sqlite3";
 import { randomUUID } from "crypto";
 import { getCityFromCoords } from "./getCityFromCoords";
-import { getRandomLat, getRandomLng, randomFrom } from "./random";
+import { getRandomLat, getRandomLng, randomFrom } from "./getRandomLatLng";
 
 const db = new betterSqlite3.default("./db/data.db");
 
@@ -28,8 +28,9 @@ function getRandomTimestampWithinLastYear(): string {
   return new Date(randomTime).toISOString();
 }
 
+
 export async function insertRandomScan() {
-  const types = ["metal", "pipe", "cavity", "unknown"];
+  const types = ["metal" , "pipe" , "tunnel" , "mine"];
   const statuses = ["active", "inactive", "warning"];
   const sources = ["drone", "robot", "manual"];
 
